@@ -34,7 +34,12 @@ Route::namespace('Frontend')->group(function(){
   }
 
   //product detail page
-  Route::get('/product_details/{id}','ProductController@productDetails');
+  Route::get('/product/{code}/{id}','ProductsController@productDetails');
+
+  Route::post('/get-product-price','ProductsController@getProductPrice');
+
+  //Add to carts
+  Route::post('add-to-cart','ProductsController@addToCart');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){
@@ -101,4 +106,9 @@ Route::prefix('/admin')->namespace('Backend')->group(function(){
 
 
 
-  
+  });
+
+
+
+});
+

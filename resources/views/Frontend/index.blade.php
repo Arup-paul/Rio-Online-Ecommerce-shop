@@ -17,12 +17,12 @@
                             <li class="span3">
                                 <div class="thumbnail">
                                     <i class="tag"></i>
-                                    <a href="#">
+                                    <a href="{{url('product/'.$item['product_code'].'/'.$item['id'])}}">
                                         <?php $product_image_path = 'images/products_images/small/'.$item['main_image']; ?>
                                         @if(!empty($item['main_image']) && file_exists($product_image_path))
-                                        <img src="{{asset($product_image_path)}}" alt="">
+                                        <img loading="lazy" src="{{asset($product_image_path)}}" alt="">
                                         @else
-                                        <img src="{{asset('images/products_images/small/no-image.png')}}" alt="">
+                                        <img loading="lazy" src="{{asset('images/products_images/small/no-image.png')}}" alt="">
                                         @endif
                                     </a>
                                     <div class="caption">
@@ -49,7 +49,7 @@
         @foreach($newProducts as $product)
         <li class="span3">
             <div class="thumbnail">
-                <a  href="product_details.html">
+                <a href="{{url('product/'.$product['product_code'].'/'.$product['id'])}}">
                     <?php $product_image_path = 'images/products_images/medium/'.$product['main_image']; ?>
                     @if(!empty($product['main_image']) && file_exists($product_image_path))
                     <img src="{{asset($product_image_path)}}" alt="">

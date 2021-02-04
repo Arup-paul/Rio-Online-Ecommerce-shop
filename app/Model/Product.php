@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     public function category(){
-        return $this->belongsTo('App\Model\Category','category_id')->select('id','category_name');
+        return $this->belongsTo('App\Model\Category','category_id');
     }
 
     public function section(){

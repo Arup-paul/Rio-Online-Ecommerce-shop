@@ -1,7 +1,10 @@
 $(document).ready(function(){
-  // $("#sort").on('change',function(){
-  //   this.form.submit();
-  // });
+
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+    }
+  })
 
   $("#sort").on('change',function(){
     var sort = $(this).val();
@@ -100,6 +103,7 @@ $(document).ready(function(){
     })
   });
 
+  //filter for class name
   function get_filter(class_name){
         var filter = [];
         $('.'+class_name+':checked').each(function(){
@@ -108,4 +112,25 @@ $(document).ready(function(){
         return filter;
 
   }
+
+
+  //size wise product price
+  $("#getPrice").change(function(){
+    var size = $(this).val();
+    if(size == ""){
+      alert("Please select Size");
+      return false;
+    }
+    var product_id = $(this).attr("product-id");
+    $.ajax({
+      url:'/get-product-price',
+      data:{size:size,product_id:product_id},
+      type:'post',
+      success: function(resp){
+          $(".getAttrPrice").html("BDT-"+resp)
+      },error:function(){
+
+      }
+    })
+  })
 });
