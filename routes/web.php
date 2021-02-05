@@ -40,6 +40,7 @@ Route::namespace('Frontend')->group(function(){
 
   //Add to carts
   Route::post('add-to-cart','ProductsController@addToCart');
+  Route::get('/cart','ProductsController@cart');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){

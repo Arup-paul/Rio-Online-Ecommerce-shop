@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Model\ProductsAttribute;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 class ProductsController extends Controller
@@ -151,7 +152,14 @@ class ProductsController extends Controller
                 Session::put('session_id', $sessionID);
             }
 
-            //Check product if already exists in carts
+            //Check product if already exists in user carts
+
+            if(Auth::check()){
+                $countProducts = Cart::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->count();
+            }else{
+                $countProducts = Cart::where(['product_id'=>$data['product_id'],'size'=>$data['size'],'session_id'=>Session::get('session_id')])->count();
+            }
+
             $countProducts = Cart::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->count();
 
             if($countProducts > 0){
@@ -172,5 +180,12 @@ class ProductsController extends Controller
             Session::flash('success_message',$message);
             return redirect()->back();
         }
+    }
+
+    //cart
+    public function cart(Request $request){
+        $userCartItems = Cart::userCartItems();
+        //  return $userCartItems; die;
+        return view('Frontend.products.cart')->with(compact('userCartItems'));
     }
 }
