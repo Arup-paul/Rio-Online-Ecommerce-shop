@@ -22,7 +22,20 @@
 									<p>
 										{{$product['brand']['name']}}
 									</p>
-									<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">BDT.{{$product['product_price']}}</a></h4>
+									<?php
+
+									$discounted_price = App\Model\Product::getDiscountPrice($product['id']);
+									?>
+									<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">
+										@if($discounted_price>0)
+										<del>BDT.{{$product['product_price']}}</del>
+										@else
+										BDT.{{$product['product_price']}}
+										@endif
+									</a></h4>
+									@if($discounted_price > 0)
+									<font color="red"> Discounted Price: BDT.{{$discounted_price}}</font>
+									@endif
 
 								</div>
 							</div>
