@@ -77,7 +77,7 @@ class ProductsController extends Controller
             $fitArray = $productFilters['fitArray'];
             $occasionArray = $productFilters['occasionArray'];
                 // echo "<pr e>"; print_r($categoryProducts); die;
-            return view('frontend.products.ajax_products_listing',compact('categoryDetails','categoryProducts','url','page_name'));
+            return view('Frontend.products.ajax_products_listing',compact('categoryDetails','categoryProducts','url','page_name'));
 
             }else{
                 abort(404);
@@ -103,8 +103,8 @@ class ProductsController extends Controller
 
             $page_name = "listing";
 
-            // echo "<pr e>"; print_r($categoryProducts); die;
-        return view('frontend.products.listing',compact('categoryDetails','categoryProducts','url','page_name','fabricArray','sleeveArray','patternArray','fitArray','occasionArray'));
+//             echo "<pre>"; print_r($categoryProducts); die;
+        return view('Frontend.products.listing',compact('categoryDetails','categoryProducts','url','page_name','fabricArray','sleeveArray','patternArray','fitArray','occasionArray'));
 
         }else{
             abort(404);
