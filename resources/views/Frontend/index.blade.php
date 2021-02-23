@@ -14,7 +14,7 @@
                     <div class="item @if($key==0) active @endif">
                         <ul class="thumbnails">
                             @foreach($featuresItem as $item)
-                            <li class="span3">
+                            <li class="span3"  style="height: 300px; width: 33%">
                                 <div class="thumbnail">
                                     <i class="tag"></i>
                                     <a href="{{url('product/'.$item['product_code'].'/'.$item['id'])}}">
@@ -27,7 +27,22 @@
                                     </a>
                                     <div class="caption">
                                     <h5>{{$item['product_name']}}</h5>
-                                        <h4><a class="btn" href="#">VIEW</a> <span class="pull-right">BDT.{{$item['product_price']}}</span></h4>
+                                        <?php
+                                        $discounted_price = App\Model\Product::getDiscountPrice($item['id']);
+                                        ?>
+                                        <h4 style="text-align:center"> <a class="btn" href="#">View </a>
+                                            <a class="btn btn-primary" href="#">
+                                                @if($discounted_price>0)
+                                                    <del>BDT.{{$item['product_price']}}</del>
+                                                @else
+                                                    BDT.{{$item['product_price']}}
+                                                @endif
+                                            </a>
+
+                                            </h4>
+                                        @if($discounted_price > 0)
+                                            <font color="red"> Discounted Price: BDT.{{$discounted_price}}</font>
+                                        @endif
                                     </div>
                                 </div>
                             </li>
@@ -63,7 +78,22 @@
                         {{$product['product_code']}}  ({{$product['product_color']}})
                     </p>
 
-                    <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">BDT. {{$product['product_price']}}</a></h4>
+                    <?php
+                    $discounted_price = App\Model\Product::getDiscountPrice($product['id']);
+                    ?>
+                    <h4 style="text-align:center"> <a class="btn" href="#">View </a>
+                        <a class="btn btn-primary" href="#">
+                            @if($discounted_price>0)
+                                <del>BDT.{{$product['product_price']}}</del>
+                            @else
+                                BDT.{{$product['product_price']}}
+                            @endif
+                        </a>
+
+                    </h4>
+                    @if($discounted_price > 0)
+                        <font color="red"> Discounted Price: BDT.{{$discounted_price}}</font>
+                    @endif
                 </div>
             </div>
         </li>

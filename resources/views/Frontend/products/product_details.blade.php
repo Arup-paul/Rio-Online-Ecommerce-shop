@@ -87,16 +87,14 @@
                 <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
                 <div class="control-group">
                     <h4 class="getAttrPrice">
-                        <?php 	$discounted_price = App\Model\Product::getDiscountPrice($productDetails['id']); ?> 
+                        <?php 	$discounted_price = App\Model\Product::getDiscountPrice($productDetails['id']); ?>
                         @if($discounted_price>0)
-                        <del>BDT.{{$productDetails['product_price']}}</del>
+                        <del>BDT.{{$productDetails['product_price']}}</del> BDT.{{$discounted_price}}
                         @else
                         BDT. {{$productDetails['product_price']}}
                         @endif
                     </a></h4>
-                    @if($discounted_price > 0)
-                    <font color="red"> Discounted Price: BDT.{{$discounted_price}}</font>
-                    @endif
+
 
 
                         <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="span2 pull-left">

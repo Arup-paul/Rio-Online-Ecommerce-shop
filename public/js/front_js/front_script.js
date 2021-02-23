@@ -127,7 +127,12 @@ $(document).ready(function(){
       data:{size:size,product_id:product_id},
       type:'post',
       success: function(resp){
-          $(".getAttrPrice").html("BDT-"+resp)
+          if(resp['discount_price'] > 0){
+              $(".getAttrPrice").html("<del> BDT-"+resp['product_price']+ "</del> BDT-"+resp['discount_price']);
+          }else{
+              $(".getAttrPrice").html("BDT-"+resp['product_price']);
+          }
+
       },error:function(){
 
       }
