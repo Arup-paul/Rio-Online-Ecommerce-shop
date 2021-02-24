@@ -127,8 +127,8 @@ $(document).ready(function(){
       data:{size:size,product_id:product_id},
       type:'post',
       success: function(resp){
-          if(resp['discount_price'] > 0){
-              $(".getAttrPrice").html("<del> BDT-"+resp['product_price']+ "</del> BDT-"+resp['discount_price']);
+          if(resp['discount'] > 0){
+              $(".getAttrPrice").html("<del> BDT:"+resp['product_price']+ "</del> BDT:"+resp['final_price']);
           }else{
               $(".getAttrPrice").html("BDT-"+resp['product_price']);
           }
@@ -137,5 +137,29 @@ $(document).ready(function(){
 
       }
     })
-  })
+  });
+
+
+  //update cart items
+    $(document).on('click','.btnItemUpdate',function(){
+      if($(this).hasClass('qtyMinus')){
+          //quantity minus click by user
+          var quantity = $(this).prev().val();
+          if(quantity <= 1){
+              alert("Item Quantity 1 or greater");
+              return false;
+          }else{
+              var new_qty = parseInt(quantity) - 1;
+              alert(new_qty)
+          }
+      }
+        if($(this).hasClass('qtyPlus')){
+            //quantity minus click by user
+            var quantity = $(this).prev().prev().val();
+            var new_qty = parseInt(quantity) + 1;
+            alert(new_qty)
+
+        }
+    });
+
 });
