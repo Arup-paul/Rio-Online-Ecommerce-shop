@@ -4,7 +4,7 @@
         <th>Product</th>
         <th colspan="2">Description</th>
         <th>Quantity/Update</th>
-        <th>Price</th>
+        <th>Unit Price</th>
         <th>Category Product <br> Discount</th>
         <th>Total</th>
     </tr>
@@ -38,10 +38,10 @@
             <td>
                 <div class="input-append">
                     <input class="span1" style="max-width:34px"  value="{{$item['quantity']}}" id="appendedInputButtons" size="16" type="text">
-                    <button class="btn btnItemUpdate qtyMinus" data-cartId="{{$item["id"]}}" type="button">
+                    <button class="btn btnItemUpdate qtyMinus" data-cartid="{{$item["id"]}}" type="button">
                         <i class="icon-minus"></i></button>
-                    <button class="btn btnItemUpdate qtyPlus" data-cartId="{{$item["id"]}}" type="button"><i class="icon-plus"></i></button>
-                    <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>				</div>
+                    <button class="btn btnItemUpdate qtyPlus" data-cartid="{{$item["id"]}}" type="button"><i class="icon-plus"></i></button>
+                    <button class="btn btn-danger btnItemDelete " data-cartid="{{$item["id"]}}" type="button"><i class="icon-remove icon-white"></i></button>				</div>
             </td>
             <td>BDT. {{$attrPrice['product_price']}} </td>
             <td>BDT. {{$attrPrice['discount']}}  </td>

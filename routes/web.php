@@ -41,6 +41,10 @@ Route::namespace('Frontend')->group(function(){
   //Add to carts
   Route::post('add-to-cart','ProductsController@addToCart');
   Route::get('/cart','ProductsController@cart')->name('cart');
+
+  //update Cart
+    Route::post('/update-cart-item-qty','ProductsController@updateCartQuantity');
+    Route::post('/delete-cart-item','ProductsController@deleteCartItem');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){

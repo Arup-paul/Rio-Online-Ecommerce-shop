@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Illuminate\Support\Facades\View;
 use Session;
 use App\Model\Cart;
 use App\Model\Product;
@@ -187,5 +188,66 @@ class ProductsController extends Controller
         $userCartItems = Cart::userCartItems();
         //  return $userCartItems; die;
         return view('Frontend.products.cart')->with(compact('userCartItems'));
+    }
+
+    //update cart
+    public function updateCartQuantity(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+
+            //Get Available product stock
+            $cartDetails = Cart::find($data['cartid']);
+            $availableStock = ProductsAttribute::select('stock')
+                ->where(['product_id'=>$cartDetails['product_id'],'size'=> $cartDetails['size']])
+                ->first()->toArray();
+             //Check stock is available
+            if($data['qty'] > $availableStock['stock']){
+                $userCartItems = Cart::userCartItems();
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Product Stock is not available',
+                    'view' => (string)View::make('Frontend.products.cart_items')
+                        ->with(compact('userCartItems'))
+                ]);
+            }
+            //check available size
+            $availableSize = ProductsAttribute::where([
+                'product_id'=> $cartDetails['product_id'],
+                'size' => $cartDetails['size'],
+                'status' => 1
+            ])->count();
+            if($availableSize == 0){
+                $userCartItems = Cart::userCartItems();
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Product Size is not available',
+                    'view' => (string)View::make('Frontend.products.cart_items')
+                        ->with(compact('userCartItems'))
+                ]);
+            }
+
+            Cart::where('id',$data['cartid'])->update(['quantity'=> $data['qty']]);
+            $userCartItems = Cart::userCartItems();
+             return response()
+                ->json([
+                    'status' => true,
+                    'view' => (string)View::make('Frontend.products.cart_items')
+                    ->with(compact('userCartItems'))
+                ]);
+
+        }
+
+    }
+
+    //delete cart item
+    public function deleteCartItem(Request $request){
+      if($request->ajax()){}
+      $data = $request->all();
+       Cart::where('id',$data['cartid'])->delete();
+        $userCartItems = Cart::userCartItems();
+        return response()
+            ->json(['view' => (string)View::make('Frontend.products.cart_items')
+                ->with(compact('userCartItems'))
+            ]);
     }
 }
