@@ -188,7 +188,7 @@ $(document).ready(function(){
                     $("#appendCartItems").html(resp.view)
                 }, error: function () {
                     alert("error")
-                } 
+                }
             })
         }
     });

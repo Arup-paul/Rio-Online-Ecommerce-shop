@@ -17,7 +17,7 @@ use App\Model\Category;
 //     return view('welcome');
 // });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -45,6 +45,11 @@ Route::namespace('Frontend')->group(function(){
   //update Cart
     Route::post('/update-cart-item-qty','ProductsController@updateCartQuantity');
     Route::post('/delete-cart-item','ProductsController@deleteCartItem');
+
+    //login register
+    Route::get('login-register','UserController@loginRegister');
+    Route::post('login','UserController@login');
+    Route::post('register','UserController@register');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){
