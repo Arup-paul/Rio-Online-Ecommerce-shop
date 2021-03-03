@@ -8,12 +8,14 @@
         <h3> Login / Register</h3>
         <hr class="soft"/>
 
+        @include('Frontend.msg.error')
+
         <div class="row">
             <div class="span4">
                 <div class="well">
                     <h5>CREATE YOUR ACCOUNT</h5> <br/>
                     Enter your details  to create an account. <br/>  <br/>
-                    <form action="{{url('register')}}" method="post">
+                    <form id="registerForm" action="{{url('register')}}" method="post">
                         @csrf
                         <div class="control-group">
                             <label class="control-label" for="name">Name</label>
@@ -28,7 +30,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="inputEmail0">E-mail address</label>
+                            <label class="control-label" for="inputEmail0">E-mail </label>
                             <div class="controls">
                                 <input class="span3" name="email" type="email" id="inputEmail0" placeholder="Email">
                             </div>
@@ -41,6 +43,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="controls">
                             <button type="submit" class="btn block">Create Your Account</button>
                         </div>
@@ -51,17 +55,18 @@
             <div class="span4">
                 <div class="well">
                     <h5>ALREADY REGISTERED ?</h5>
-                    <form>
+                    <form id="loginform" action="{{url('login')}}" method="post">
+                        @csrf
                         <div class="control-group">
                             <label class="control-label" for="inputEmail1">Email</label>
                             <div class="controls">
-                                <input class="span3"  type="text" id="inputEmail1" placeholder="Email">
+                                <input class="span3" name="email"  type="email" id="inputEmail1" placeholder="Email">
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="inputPassword1">Password</label>
                             <div class="controls">
-                                <input type="password" class="span3"  id="inputPassword1" placeholder="Password">
+                                <input type="password" name="password" class="span3"  id="inputPassword1" placeholder="Password">
                             </div>
                         </div>
                         <div class="control-group">

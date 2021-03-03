@@ -54,7 +54,14 @@ $sections = Section::sections();
 		          <ul class="nav pull-right">
 		            <li><a href="#">Contact</a></li>
 		            <li class="divider-vertical"></li>
-		            <li><a href="#">Login</a></li>
+                      @guest()
+		            <li><a href="{{url('login-register')}}">Login / Register</a></li>
+                          @endguest
+                      @auth()
+                        <li><a href="{{url('/account')}}">My Account</a></li>
+                          <li class="divider-vertical"></li>
+                        <li><a href="{{url('logout')}}">Logout</a></li>
+                      @endauth
 		          </ul>
 		        </div><!-- /.nav-collapse -->
 		      </div>

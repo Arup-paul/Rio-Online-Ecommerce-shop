@@ -46,10 +46,14 @@ Route::namespace('Frontend')->group(function(){
     Route::post('/update-cart-item-qty','ProductsController@updateCartQuantity');
     Route::post('/delete-cart-item','ProductsController@deleteCartItem');
 
+
+    //chek if email exist
+    Route::match(['get','post'],'/check-email','UserController@checkEmail');
     //login register
     Route::get('login-register','UserController@loginRegister');
     Route::post('login','UserController@login');
     Route::post('register','UserController@register');
+    Route::get('logout','UserController@logout');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){

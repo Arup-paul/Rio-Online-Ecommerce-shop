@@ -194,4 +194,59 @@ $(document).ready(function(){
     });
 
 
+    //register form
+    $("#registerForm").validate({
+        rules: {
+            name: "required",
+            mobile:{
+                required: true,
+                digits:true,
+                minlength: 11,
+                maxlength:14,
+            },
+            email: {
+                required: true,
+                email: true,
+                remote:'check-email'
+            },
+            password: {
+                required: true,
+                minlength: 6
+            },
+        },
+        messages: {
+            name: "Please enter your name",
+            mobile: {
+                required: "Please Enter your Mobile Number",
+                minlength: "Your number must be at least 11 digit long",
+                maxlength: "Your number  must consist 14 digit",
+                digits:"Please enter your valid mobile number"
+            },
+            email: {
+                required: "Please enter your email address",
+                email: "please enter valid email address",
+                remote:"Email address already exists!"
+            },
+            password: {
+                required: "Please choose your password",
+                minlength: "Your password must be at least 6 characters long"
+            },
+
+        }
+    });
+
+    //login form
+    $("#loginform").validate({
+        rules: {
+            email:"required",
+            password:"required"
+        },
+        messages: {
+           email: "Email address field  empty",
+            password: "Password field empty"
+
+        }
+    });
+
+
 });
