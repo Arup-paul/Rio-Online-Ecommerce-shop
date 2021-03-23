@@ -19,6 +19,8 @@ class UserController extends Controller
 
      public function register(Request $request){
        if($request->isMethod('post')){
+           Session::forget('error_message');
+           Session::forget('success_message');
            $data  = $request->all();
             $userCount = User::where('email',$data['email'])->count();
             if($userCount > 0 ){
@@ -31,46 +33,72 @@ class UserController extends Controller
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);
-                $user->status = 1;
+                $user->status = 0;
                 $user->save();
+
+                //send confirmation email user
+                $email = $data['email'];
+                $messageData = [
+                    'email' => $data['email'],
+                    'name' => $data['name'],
+                    'code' => base64_encode($data['email']),
+                ];
+
+//                Mail::send('emails.confirmation',$messageData,function($message) use($email){
+//                    $message->to($email)->subject('Confirm Your Account');
+//                });
+
+                //Redirect
+                $message = "Please confirm your email to activate your account";
+                Session::put('success_message',$message);
+                return redirect()->back();
+
 
 
                 //
-                if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']])){
-                    //update User cart with user id
-                    if(!empty(Session::get('session_id'))){
-                        $user_id = Auth::user()->id;
-                        $session_id = Session::get('session_id');
-                        Cart::where('session_id',$session_id)->update(['user_id' => $user_id]);
-                    }
-
-//                    //send register message
-//                    $message = "Succesfully Register";
-//                    $mobile = $data['mobile'];
-//                    SMS::sendSms($message,$mobile);
+//                if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']])){
+//                    //update User cart with user id
+//                    if(!empty(Session::get('session_id'))){
+//                        $user_id = Auth::user()->id;
+//                        $session_id = Session::get('session_id');
+//                        Cart::where('session_id',$session_id)->update(['user_id' => $user_id]);
+//                    }
 //
-//                    //send register email
-//                    $email = $data['email'];
-//                    $messageData = [
-//                        'name' => $data['name'],
-//                        'mobile' => $data['mobile'],
-//                        'email' => $data['email']
-//                    ];
-//                    Mail::send('emails.register',$messageData,function($message) use($email){
-//                        $message->to($email)->subject('Welcome to Ecommerce Website');
-//                    });
-                   return redirect('cart');
-                }
+////                    //send register message
+////                    $message = "Succesfully Register";
+////                    $mobile = $data['mobile'];
+////                    SMS::sendSms($message,$mobile);
+////
+////                    //send register email
+////                    $email = $data['email'];
+////                    $messageData = [
+////                        'name' => $data['name'],
+////                        'mobile' => $data['mobile'],
+////                        'email' => $data['email']
+////                    ];
+////                    Mail::send('emails.register',$messageData,function($message) use($email){
+////                        $message->to($email)->subject('Welcome to Ecommerce Website');
+////                    });
+//                   return redirect('cart');
+//                }
             }
        }
      }
 
      public function login(Request $request){
         if($request->isMethod('post')){
+
             $data = $request->all();
 
             if(Auth::attempt(['email'  => $data['email'], 'password' => $data['password']])){
-
+                //Check email is activated
+                $userStatus = User::where('email',$data['email'])->first();
+                if($userStatus->status == 0){
+                    Auth::logout();
+                    $message = "Your Account is Not Activated! Please confirm to your email address";
+                    Session::put('error_message',$message);
+                    return redirect()->back();
+                }
                 //update User cart with user id
                 if(!empty(Session::get('session_id'))){
                     $user_id = Auth::user()->id;
