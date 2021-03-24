@@ -54,6 +54,9 @@ Route::namespace('Frontend')->group(function(){
     Route::post('login','UserController@login');
     Route::post('register','UserController@register');
     Route::get('logout','UserController@logout');
+
+    //confirm user account
+    Route::match(['get','post'],'confirm/{code}','UserController@confirmAccount');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){

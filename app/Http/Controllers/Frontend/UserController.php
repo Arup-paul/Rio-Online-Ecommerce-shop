@@ -33,7 +33,7 @@ class UserController extends Controller
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);
-                $user->status = 0;
+                $user->status = 1;
                 $user->save();
 
                 //send confirmation email user
@@ -85,6 +85,46 @@ class UserController extends Controller
        }
      }
 
+     public function confirmAccount($email){
+        $email = base64_decode($email);
+
+        //check user email address
+         $userCount = User::where('email',$email)->count();
+         if($userCount > 0){
+             //User account activate or not
+             $userDetails = User::where('email',$email)->first();
+             if($userDetails->status ==1){
+                 $message = "User Email Account is already activated ..Please Login";
+                 Session::put('error_message',$message);
+                 return redirect('login-register');
+             }else{
+                 //update user status to 1 to activate account
+                 User::where('email',$email)->update(['status' => 1]);
+                 ////                    //send register message
+////                    $message = "Succesfully Register";
+////                    $mobile = $userDetails['mobile'];
+////                    SMS::sendSms($message,$mobile);
+////
+////                    //send register email
+////                    $messageData = [
+////                        'name' => $userDetails['name'],
+////                        'mobile' => $userDetails['mobile'],
+////                        'email' => $userDetails['email']
+////                    ];
+////                    Mail::send('emails.register',$messageData,function($message) use($email){
+////                        $message->to($email)->subject('Welcome to Ecommerce Website');
+////                    });
+                  $message = "Your Email account is activated.You Can login  now";
+                  Session::put('success_message',$message);
+                  return redirect('login-register');
+//                }
+             }
+         }else{
+             abort(404);
+         }
+     }
+
+
      public function login(Request $request){
         if($request->isMethod('post')){
 
@@ -131,6 +171,8 @@ class UserController extends Controller
          }
 
      }
+
+
 
      public function logout(){
         Auth::logout();
