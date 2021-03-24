@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -26,6 +27,7 @@ class UserController extends Controller
             if($userCount > 0 ){
                 $message = 'Email   already exist';
                 session::flash('error_message',$message);
+                session::forget('success_message');
                 return redirect()->back();
             }else{
                 $user = new User;
@@ -51,6 +53,8 @@ class UserController extends Controller
                 //Redirect
                 $message = "Please confirm your email to activate your account";
                 Session::put('success_message',$message);
+                session::forget('error_message');
+                session::forget('success_message');
                 return redirect()->back();
 
 
@@ -96,6 +100,7 @@ class UserController extends Controller
              if($userDetails->status ==1){
                  $message = "User Email Account is already activated ..Please Login";
                  Session::put('error_message',$message);
+                 session::forget('success_message');
                  return redirect('login-register');
              }else{
                  //update user status to 1 to activate account
@@ -116,6 +121,7 @@ class UserController extends Controller
 ////                    });
                   $message = "Your Email account is activated.You Can login  now";
                   Session::put('success_message',$message);
+                 session::forget('error_message');
                   return redirect('login-register');
 //                }
              }
@@ -137,6 +143,7 @@ class UserController extends Controller
                     Auth::logout();
                     $message = "Your Account is Not Activated! Please confirm to your email address";
                     Session::put('error_message',$message);
+                    session::forget('success_message');
                     return redirect()->back();
                 }
                 //update User cart with user id
@@ -153,6 +160,7 @@ class UserController extends Controller
             }else{
                 $message = 'Invalid Email or Password';
                 session::flash('error_message',$message);
+                session::forget('error_message');
                 return redirect()->back();
             }
 
@@ -172,12 +180,55 @@ class UserController extends Controller
 
      }
 
-
-
      public function logout(){
         Auth::logout();
         return redirect('/');
      }
+    public function forgetPassword(Request $request){
+        if($request->isMethod('post')){
+           $data = $request->all();
+           $emailCount = User::where('email',$data['email'])->count();
+
+           if($emailCount == 0){
+               $message = "Email Does Not Exist";
+               Session::put('error_message',$message);
+               Session::forget('success_message');
+               return redirect()->back();
+           }
+           //Generate New Random Password
+            $random_password = Str::random(8);
+
+           //encode and secure password
+            $new_password = bcrypt($random_password);
+            User::where('email',$data['email'])->update(['password'=> $new_password]);
+
+            //Get User name
+            $userName = User::select('name')->where('email',$data['email'])->first();
+
+            //Send Forget password Email
+            $email = $data['email'];
+            $name = $userName->name;
+            $messageData = [
+                'email' => $email,
+                'name' => $name,
+                'password' => $random_password
+            ];
+
+            Mail::send('emails.forget-password',$messageData,function($message) use($email){
+                $message->to($email)->subject('New Password - Rio Online Shop');
+            });
+
+            //Redirect to Login/Register Page
+            $message = "Please Check Your Email for get New Password";
+            Session::put('success_message',$message);
+            Session::forget('error_message');
+            return redirect('login-register');
+
+
+
+        }
+       return view('Frontend.users.forgetPassword');
+    }
 
 
 

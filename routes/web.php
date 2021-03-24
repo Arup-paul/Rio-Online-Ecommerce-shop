@@ -54,6 +54,8 @@ Route::namespace('Frontend')->group(function(){
     Route::post('login','UserController@login');
     Route::post('register','UserController@register');
     Route::get('logout','UserController@logout');
+    //Forget Password
+    Route::match(['get','post'],'forget-password','UserController@forgetPassword');
 
     //confirm user account
     Route::match(['get','post'],'confirm/{code}','UserController@confirmAccount');
