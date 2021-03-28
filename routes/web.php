@@ -59,6 +59,9 @@ Route::namespace('Frontend')->group(function(){
 
     //confirm user account
     Route::match(['get','post'],'confirm/{code}','UserController@confirmAccount');
+
+    //user account
+    Route::match(['get','post'],'account','UserController@account');
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){

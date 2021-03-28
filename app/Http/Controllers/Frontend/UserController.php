@@ -152,10 +152,6 @@ class UserController extends Controller
                     $session_id = Session::get('session_id');
                     Cart::where('session_id',$session_id)->update(['user_id' => $user_id]);
                 }
-
-
-
-
                 return redirect('/cart');
             }else{
                 $message = 'Invalid Email or Password';
@@ -229,6 +225,13 @@ class UserController extends Controller
         }
        return view('Frontend.users.forgetPassword');
     }
+
+
+    public function account(){
+
+    }
+
+
 
 
 
