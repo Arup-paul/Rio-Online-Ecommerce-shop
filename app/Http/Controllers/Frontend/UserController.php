@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Model\Cart;
-use App\Model\SMS;
 use App\User;
-use Illuminate\Http\Request;
-use Auth;
+use App\Model\SMS;
+use App\Model\Cart;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request; 
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -227,8 +227,28 @@ class UserController extends Controller
     }
 
 
-    public function account(){
+    public function account(Request $request){
+        $id =  Auth::user()->id; 
+        $userDetaills = User::find($id)->toArray(); 
 
+        if($request->isMethod('post')){
+            $data = $request->all(); 
+            $user = User::find($id);
+            $user->name = $data['name'];
+            $user->address = $data['address'];
+            $user->city = $data['city'];
+            $user->state = $data['state'];
+            $user->zipcode = $data['zipcode'];
+            $user->country = $data['country'];
+            $user->mobile = $data['mobile'];
+            $user->save();
+            $message = "Your Account has been update succesfully";
+            Session::put("success_message",$message);
+            Session::forget("error_message");
+            return redirect()->back();          
+            
+        }
+       return view('Frontend.users.account',compact('userDetaills'));    
     }
 
 

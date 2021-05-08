@@ -56,7 +56,7 @@
                 <div class="well">
                     <h5>ALREADY REGISTERED ?</h5>
                     <form id="loginform" action="{{url('login')}}" method="post">
-                        @csrf
+                         @csrf
                         <div class="control-group">
                             <label class="control-label" for="inputEmail1">Email</label>
                             <div class="controls">

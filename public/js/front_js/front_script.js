@@ -248,5 +248,32 @@ $(document).ready(function(){
         }
     });
 
+       //account form
+       $("#accountForm").validate({
+        rules: {
+            name:{
+              required:true, 
+            },
+            mobile:{
+                required: true,
+                digits:true,
+                minlength: 11,
+                maxlength:14,
+            }, 
+        },
+        messages: {
+            name: {
+                required:"please Enter your Name", 
+            },
+            mobile: {
+                required: "Please Enter your Mobile Number",
+                minlength: "Your number must be at least 11 digit long",
+                maxlength: "Your number  must consist 14 digit",
+                digits:"Please enter your valid mobile number"
+            }, 
+
+        }
+    });
+
 
 });
