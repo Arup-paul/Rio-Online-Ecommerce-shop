@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -266,6 +267,19 @@ class UserController extends Controller
             
         }
        return view('Frontend.users.account',compact('userDetaills','countries'));    
+    }
+
+    public function checkUserPassword(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            $id = Auth::user()->id; 
+            $chkPassword = User::select('password')->where('id',$id)->first();
+            if(Hash::check($data['current_pwd'],$chkPassword->password)){
+                return "true";
+            }else{
+                return "false";
+            }
+        }
     }
 
 
