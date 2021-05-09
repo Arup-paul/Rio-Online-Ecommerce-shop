@@ -275,5 +275,24 @@ $(document).ready(function(){
         }
     });
 
+    //check current user password
+     $("#current_pwd").keyup(function(){
+       var current_pwd = $(this).val();
+        $.ajax({
+          type:'post',
+          url:'/check-current-user-password',
+          data:{current_pwd:current_pwd},
+          success:function(resp){    
+             if(resp =="false"){
+               $("#chkPwd").html('<font color="red" font-size:"12px"> Current Password is Incorrect</font>')
+             }else if(resp=="true"){
+              $("#chkPwd").html('<font color="green" font-size:"12px"> Current Password is Matched</font>')
+             }
+          },error:function(){
+               alert("error")
+          }
+        })
+     })
+
 
 });
