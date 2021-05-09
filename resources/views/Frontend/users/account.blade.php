@@ -10,6 +10,8 @@
 
         @include('Frontend.msg.error')
 
+        @include('Frontend.msg.validation')
+
         <div class="row">
             <div class="span4">
                 <div class="well">
@@ -45,7 +47,12 @@
                         <div class="control-group">
                             <label class="control-label" for="country">Country</label>
                             <div class="controls">
-                                <input class="span3" name="country"  type="text" id="country" value="{{$userDetaills['country']}}">
+                               <select name="country" id="country">
+                                   <option value="">Select Country</option>
+                                   @foreach($countries as $country)
+                                   <option @if($country->country_name == $userDetaills['country']) selected @endif value="{{$country->country_name}}" >{{$country->country_name}}</option>
+                                   @endforeach
+                               </select>
                             </div>
                         </div>
 
