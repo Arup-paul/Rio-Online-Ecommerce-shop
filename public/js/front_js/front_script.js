@@ -275,6 +275,28 @@ $(document).ready(function(){
         }
     });
 
+      //update password form
+      $("#passwordForm").validate({
+        rules: {
+          current_pwd:{
+              required:true, 
+              minlength:6,
+              maxlength:20,
+            },
+            new_pwd:{
+              required:true, 
+              minlength:6,
+              maxlength:20,
+            }, 
+            confirm_pwd:{
+              required:true, 
+              minlength:6,
+              maxlength:20,
+              equalTo:"#new_pwd"
+            },
+        },
+    });
+
     //check current user password
      $("#current_pwd").keyup(function(){
        var current_pwd = $(this).val();

@@ -282,6 +282,29 @@ class UserController extends Controller
         }
     }
 
+    public function updateUserPassword(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            Session::forget('success_message');
+            $id = Auth::user()->id; 
+            $chkPassword = User::select('password')->where('id',$id)->first();
+            if(Hash::check($data['current_pwd'],$chkPassword->password)){
+                 $new_password = bcrypt($data['new_pwd']);
+                 User::where('id',$id)->update(['password' => $new_password]);
+                 $message = "Password Updated Succesfully";
+                 Session::put('success_message',$message);
+                 Session::forget("error_message");
+                 return redirect()->back();
+
+            }else{
+                $message = "Current Password is Incorrect";
+                Session::put('error_message',$message);
+                Session::forget("success_message");
+                return redirect()->back();
+            }
+        }
+    }
+
 
 
 
