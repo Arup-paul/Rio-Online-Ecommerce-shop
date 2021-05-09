@@ -61,7 +61,10 @@ Route::namespace('Frontend')->group(function(){
     Route::match(['get','post'],'confirm/{code}','UserController@confirmAccount');
 
     //user account
-    Route::match(['get','post'],'account','UserController@account');
+    Route::match(['get','post'],'account','UserController@account'); 
+    Route::post('/check-current-user-password','UserController@checkUserPassword');
+    Route::post('/update-user-password','UserController@updateUserPassword');
+
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){
