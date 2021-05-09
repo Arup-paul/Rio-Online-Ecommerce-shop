@@ -50,7 +50,7 @@ Route::namespace('Frontend')->group(function(){
     //chek if email exist
     Route::match(['get','post'],'/check-email','UserController@checkEmail');
     //login register
-    Route::get('login-register','UserController@loginRegister');
+    Route::get('login-register',['as' => 'login','uses'=>'UserController@loginRegister']);
     Route::post('login','UserController@login');
     Route::post('register','UserController@register');
     Route::get('logout','UserController@logout');
@@ -60,11 +60,12 @@ Route::namespace('Frontend')->group(function(){
     //confirm user account
     Route::match(['get','post'],'confirm/{code}','UserController@confirmAccount');
 
+    Route::group(['middleware' => ['auth']],function(){
     //user account
     Route::match(['get','post'],'account','UserController@account'); 
     Route::post('/check-current-user-password','UserController@checkUserPassword');
     Route::post('/update-user-password','UserController@updateUserPassword');
-
+   });
 });
 
 Route::prefix('/admin')->namespace('Backend')->group(function(){
