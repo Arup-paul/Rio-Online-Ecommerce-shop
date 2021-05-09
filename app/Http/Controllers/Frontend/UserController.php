@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\User;
 use App\Model\SMS;
 use App\Model\Cart;
+use App\Model\Country;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
@@ -230,9 +231,25 @@ class UserController extends Controller
     public function account(Request $request){
         $id =  Auth::user()->id; 
         $userDetaills = User::find($id)->toArray(); 
+        $countries = Country::where('status',1)->get();
 
         if($request->isMethod('post')){
             $data = $request->all(); 
+            Session::forget("success_message");
+              
+            //validation
+            $rules = [
+                "name" => "required|regex:/^[\pL\s\-]+$/u",
+                "mobile" => "required|numeric"
+            ];
+            $customMessage = [
+                "name.required" => "Please Enter Your Name",
+                "name.regex" => "Please Enter your Valid Name",
+                "mobile.required" => "Please Enter Your Mobile Number",
+                "mobile.number" => "Please Enter Your Valid Mobile Number"
+            ];
+            $this->validate($request,$rules, $customMessage);
+
             $user = User::find($id);
             $user->name = $data['name'];
             $user->address = $data['address'];
@@ -248,7 +265,7 @@ class UserController extends Controller
             return redirect()->back();          
             
         }
-       return view('Frontend.users.account',compact('userDetaills'));    
+       return view('Frontend.users.account',compact('userDetaills','countries'));    
     }
 
 
