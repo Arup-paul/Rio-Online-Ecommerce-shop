@@ -166,7 +166,8 @@ $(document).ready(function(){
             success:function(resp){
                 if(resp.status == false){
                     alert(resp.msg);
-                }
+                } 
+                $(".totalCartItems").html(resp.totalCartItems);
                 $("#appendCartItems").html(resp.view)
             },error:function(){
                 alert("error")
@@ -185,6 +186,7 @@ $(document).ready(function(){
                 url: "/delete-cart-item",
                 type: 'post',
                 success: function (resp) {
+                  $(".totalCartItems").html(resp.totalCartItems);
                     $("#appendCartItems").html(resp.view)
                 }, error: function () {
                     alert("error")

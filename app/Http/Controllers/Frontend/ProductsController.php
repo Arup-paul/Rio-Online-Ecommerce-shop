@@ -210,8 +210,10 @@ class ProductsController extends Controller
              //Check stock is available
             if($data['qty'] > $availableStock['stock']){
                 $userCartItems = Cart::userCartItems();
+                
+                
                 return response()->json([
-                    'status' => false,
+                    'status' => false, 
                     'msg' => 'Product Stock is not available',
                     'view' => (string)View::make('Frontend.products.cart_items')
                         ->with(compact('userCartItems'))
@@ -235,9 +237,11 @@ class ProductsController extends Controller
 
             Cart::where('id',$data['cartid'])->update(['quantity'=> $data['qty']]);
             $userCartItems = Cart::userCartItems();
+            $totalCartItems = totalCartItems();
              return response()
                 ->json([
-                    'status' => true,
+                    'status' => true, 
+                    'totalCartItems' => $totalCartItems,
                     'view' => (string)View::make('Frontend.products.cart_items')
                     ->with(compact('userCartItems'))
                 ]);
@@ -252,8 +256,11 @@ class ProductsController extends Controller
       $data = $request->all();
        Cart::where('id',$data['cartid'])->delete();
         $userCartItems = Cart::userCartItems();
+        $totalCartItems = totalCartItems();
         return response()
-            ->json(['view' => (string)View::make('Frontend.products.cart_items')
+            ->json([
+                'totalCartItems' => $totalCartItems,
+                'view' => (string)View::make('Frontend.products.cart_items')
                 ->with(compact('userCartItems'))
             ]);
     }
