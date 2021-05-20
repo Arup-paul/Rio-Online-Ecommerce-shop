@@ -272,6 +272,33 @@ $(document).ready(function() {
         });
     });
 
+      //update coupon status in coupon module
+      $(".updatecouponStatus").click(function() {
+        var status = $(this).text();
+        var coupon_id = $(this).attr("coupon_id");
+        $.ajax({
+            type: "post",
+            url: "/admin/update_coupon_status",
+            data: {
+                status: status,
+                coupon_id: coupon_id
+            },
+            success: function(resp) {
+                if (resp["status"] == 0) {
+                    $("#coupon-" + coupon_id).html(
+                        "<a class='updatecouponStatus badge badge-danger' href='javascript:void(0)'> Inctive</a>"
+                    );
+                } else if (resp["status"] == 1) {
+                    $("#coupon-" + coupon_id).html(
+                        "<a class='updatecouponStatus badge badge-success' href='javascript:void(0)'> Active</a>"
+                    );
+                }
+            },
+            error: function() {
+                alert("Error");
+            }
+        });
+    });
 
     //products Attributes Add/Remove Script
 
