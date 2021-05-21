@@ -77,7 +77,7 @@
             </ul>
           </li>
 
-           @if(Session::get('page') == 'sections' || Session::get('page') == 'categories' || Session::get('page') == 'brands' || Session::get('page') == 'products' )
+           @if(Session::get('page') == 'sections' || Session::get('page') == 'categories' || Session::get('page') == 'coupons'   || Session::get('page') == 'brands' || Session::get('page') == 'products'  )
                 <?php $active = "active"?>
                 @else
                 <?php $active = ""?>
@@ -126,6 +126,20 @@
               </a>
             </li>
 
+            @if(Session::get('page') == 'coupons')
+              <?php $active = "active"?>
+              @else
+              <?php $active = ""?>
+              @endif
+            <li class="nav-item">
+            <a href="{{url('/admin/coupons')}}" class="nav-link {{$active}}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Coupons</p>
+              </a>
+            </li>
+
+            
+
 
                @if(Session::get('page') == 'categories')
                 <?php $active = "active"?>
@@ -137,7 +151,7 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Categories</p>
                 </a>
-              </li>
+              </li> 
 
                @if(Session::get('page') == 'products')
                 <?php $active = "active"?>
@@ -147,11 +161,13 @@
               <li class="nav-item">
               <a href="{{url('/admin/products')}}" class="nav-link {{$active}}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>products</p>
+                  <p>Products</p>
                 </a>
               </li>
+ 
 
-              </li>
+             
+
             </ul>
           </li>
 

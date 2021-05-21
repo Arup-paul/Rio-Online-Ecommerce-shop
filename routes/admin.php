@@ -64,7 +64,7 @@ Route::prefix('/admin')->namespace('Backend')->group(function(){
    //coupons Route
     Route::get('/coupons','CouponController@coupons');
     Route::post('/update_coupon_status', 'CouponController@updateCouponStatus');
-
+    Route::match(['get', 'post'],'add_edit_coupon/{id?}','CouponController@addEditCoupon');
   });
 
 

@@ -300,6 +300,8 @@ $(document).ready(function() {
         });
     });
 
+   
+
     //products Attributes Add/Remove Script
 
     var maxField = 10;
@@ -322,5 +324,13 @@ $(document).ready(function() {
             .parent("div")
             .remove();
         x--;
+    });
+
+     //show/hide coupon field for Manual/Automatic
+     $("#ManualCoupon").click(function(){
+        $("#couponField").show();
+    });
+    $("#AutomaticCoupon").click(function(){
+        $("#couponField").hide();
     });
 });

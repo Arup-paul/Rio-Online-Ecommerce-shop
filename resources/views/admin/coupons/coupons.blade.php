@@ -28,7 +28,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Coupons</h3>
-              <a href="#"  class="btn btn-success float-right">Add Coupons</a>
+              <a href="{{url('admin/add_edit_coupon')}}"  class="btn btn-success float-right">Add Coupons</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
